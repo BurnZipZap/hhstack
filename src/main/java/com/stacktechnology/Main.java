@@ -21,12 +21,12 @@ public class Main {
     /**
      * Количество страниц с результатами поиска, которые необходимо просканировать
      */
-    public static final int COUNT_PAGE_BY_SEARCH = 3;
+    private static final int COUNT_PAGE_BY_SEARCH = 3;
 
     /**
      * Минимальное количество сообщений, которое должно быть у категории, чтобы она была выведена на экран
      */
-    public static final int MIN_COUNT_MSG_BY_CATEGORY_FOR_PRINT = 5;
+    private static final int MIN_COUNT_MSG_BY_CATEGORY_FOR_PRINT = 5;
 
     public static void main(String[] args) {
         Configuration.headless = true;
@@ -109,7 +109,7 @@ public class Main {
     /**
      * Обрезать исходный текст до того блока, где указан стек технологий
      */
-    public static String getOnlyStackText(String vacancyText) {
+    private static String getOnlyStackText(String vacancyText) {
         var regexTextNotContainsRussianSymbols = "^[^а-яА-Я]*$";
         if (Pattern.matches(regexTextNotContainsRussianSymbols, vacancyText)) {
             log.info("1 вакансия была проигнорирована, т.к. оформлена на английском языке (в будущих версиях добавим возможность анализа таких вакансий)");
@@ -128,7 +128,7 @@ public class Main {
      * Проверить, является ли текст part стеком технологий
      * (если в строке part встречается больше 2-ух слов из массива wordsThatOccurInStackTechnology, то предполагается, что это стек технологий)
      */
-    public static boolean isStackText(String part) {
+    private static boolean isStackText(String part) {
         var wordsThatOccurInStackTechnology = new String[]{"опыт", "знание", "знает", "умеет", "знания", "понимает", "знаешь", "разбираешься",
                 "умеешь", "знаком", "знаниями", "обладаешь", "желание", "умение", "владение"};
         int count = 0;

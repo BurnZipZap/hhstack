@@ -13,7 +13,7 @@ public class PrintUtils {
     /**
      * Максимальное количество сообщений, которое выводится для описания одной категории
      */
-    public static final int MAX_MSG_BY_CATEGORY = 4;
+    private static final int MAX_MSG_BY_CATEGORY = 4;
 
     /**
      * Вывести все категории, которые встречались в вакансиях больше minCount раз.
