@@ -11,7 +11,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
 
@@ -19,7 +18,15 @@ public class Main {
 
     private static final Logger log = (Logger) LogManager.getLogger(Main.class);
 
-    public static int COUNT_PAGE_BY_SEARCH = 3;
+    /**
+     * Количество страниц с результатами поиска, которые необходимо просканировать
+     */
+    public static final int COUNT_PAGE_BY_SEARCH = 3;
+
+    /**
+     * Минимальное количество сообщений, которое должно быть у категории, чтобы она была выведена на экран
+     */
+    public static final int MIN_COUNT_MSG_BY_CATEGORY_FOR_PRINT = 5;
 
     public static void main(String[] args) {
         Configuration.headless = true;
@@ -28,9 +35,8 @@ public class Main {
         log.info("Шаг 1. Сканирование страницы с перечнем вакансий (с 1 стр. по " + COUNT_PAGE_BY_SEARCH + ") и сбор ссылок на данные вакансии.");
         Set<Vacancy> vacancies = new HashSet<>();
         for (int pageNumber=2; pageNumber < COUNT_PAGE_BY_SEARCH; pageNumber++) {
-            SearchVacancyPage.getVacanciesCard().forEach(card -> {
-                vacancies.add(new Vacancy(card.getTitle().text(), card.getCompany().text(), card.getLink().getAttribute("href")));
-            });
+            SearchVacancyPage.getVacanciesCard().forEach(card ->
+                    vacancies.add(new Vacancy(card.getTitle().text(), card.getCompany().text(), card.getLink().getAttribute("href"))));
             SearchVacancyPage.goToPage(pageNumber);
         }
         log.info("Сканирование завершилось успешно. Собрано " + vacancies.size() + " вакансий!");
@@ -58,8 +64,8 @@ public class Main {
 
         Collections.sort(categories);
 
-        PrintUtils.printCategoryWithMsg(5,categories);
-        //PrintUtils.printLongCategoryWhereTextSizeMore(3, categories);*/
+        PrintUtils.printCategoryWithMsg(MIN_COUNT_MSG_BY_CATEGORY_FOR_PRINT,categories);
+        //PrintUtils.printCategoryWithoutMsg(MIN_COUNT_MSG_BY_CATEGORY_FOR_PRINT, categories);
     }
 
     /**
