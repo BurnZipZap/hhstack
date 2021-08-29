@@ -42,7 +42,6 @@ public class Main {
         log.info("Сканирование завершилось успешно. Собрано " + vacancies.size() + " вакансий!");
 
         log.info("Шаг 2. Открытие ссылок на каждую вакансию и сканирование содержимого на наличие стека технологий (это займет достаточно большое количество времени!)");
-
         int count = 0;
         for (var vacancy : vacancies) {
             Selenide.open(vacancy.getLink());
