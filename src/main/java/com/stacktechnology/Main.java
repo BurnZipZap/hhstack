@@ -34,7 +34,7 @@ public class Main {
 
         log.info("Шаг 1. Сканирование страницы с перечнем вакансий (с 1 стр. по " + COUNT_PAGE_BY_SEARCH + ") и сбор ссылок на данные вакансии.");
         Set<Vacancy> vacancies = new HashSet<>();
-        for (int pageNumber=2; pageNumber < COUNT_PAGE_BY_SEARCH; pageNumber++) {
+        for (int pageNumber = 2; pageNumber < COUNT_PAGE_BY_SEARCH; pageNumber++) {
             SearchVacancyPage.getVacanciesCard().forEach(card ->
                     vacancies.add(new Vacancy(card.getTitle().text(), card.getCompany().text(), card.getLink().getAttribute("href"))));
             SearchVacancyPage.goToPage(pageNumber);
@@ -44,27 +44,27 @@ public class Main {
         log.info("Шаг 2. Открытие ссылок на каждую вакансию и сканирование содержимого на наличие стека технологий (это займет достаточно большое количество времени!)");
 
         int count = 0;
-        for(var vacancy: vacancies){
+        for (var vacancy : vacancies) {
             Selenide.open(vacancy.getLink());
             VacancyPage.getVacancyInfo().shouldBe(Condition.visible);
             vacancy.setVacancyText(VacancyPage.getVacancyInfo().text());
             vacancy.setVacancyStack(getOnlyStackText(vacancy.getVacancyText()));
             count++;
-            if(count%10 == 0){
+            if (count % 10 == 0) {
                 log.info("Просканировано " + count + " вакансий. Осталось: " + (vacancies.size() - count));
             }
         }
 
         log.info("Шаг 3. Анализ собранных данных, создание категорий и подсчет их востребованности");
         List<Category> categories = new ArrayList<>();
-        vacancies.forEach( vacancy -> {
+        vacancies.forEach(vacancy -> {
             parseBlockTextWithStackAndAddCategories(vacancy.getVacancyStack(), categories);
             parseBlockTextWithStackAndAddLinesToResultList(vacancy.getVacancyStack(), categories);
         });
 
         Collections.sort(categories);
 
-        PrintUtils.printCategoryWithMsg(MIN_COUNT_MSG_BY_CATEGORY_FOR_PRINT,categories);
+        PrintUtils.printCategoryWithMsg(MIN_COUNT_MSG_BY_CATEGORY_FOR_PRINT, categories);
         //PrintUtils.printCategoryWithoutMsg(MIN_COUNT_MSG_BY_CATEGORY_FOR_PRINT, categories);
     }
 
@@ -129,11 +129,11 @@ public class Main {
      * (если в строке part встречается больше 2-ух слов из массива wordsThatOccurInStackTechnology, то предполагается, что это стек технологий)
      */
     public static boolean isStackText(String part) {
-        var wordsThatOccurInStackTechnology = new String[]{"опыт","знание","знает","умеет","знания","понимает","знаешь","разбираешься",
-                "умеешь","знаком","знаниями","обладаешь","желание","умение","владение"};
+        var wordsThatOccurInStackTechnology = new String[]{"опыт", "знание", "знает", "умеет", "знания", "понимает", "знаешь", "разбираешься",
+                "умеешь", "знаком", "знаниями", "обладаешь", "желание", "умение", "владение"};
         int count = 0;
-        for(var word: wordsThatOccurInStackTechnology) {
-            count+= (part.toLowerCase().length() - part.toLowerCase().replace(word, "").length()) / word.length();
+        for (var word : wordsThatOccurInStackTechnology) {
+            count += (part.toLowerCase().length() - part.toLowerCase().replace(word, "").length()) / word.length();
         }
         return count >= 2;
     }

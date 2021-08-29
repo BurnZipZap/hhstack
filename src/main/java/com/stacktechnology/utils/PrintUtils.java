@@ -1,7 +1,6 @@
 package com.stacktechnology.utils;
 
 import com.stacktechnology.Category;
-import com.stacktechnology.Main;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
@@ -27,7 +26,7 @@ public class PrintUtils {
                     log.info(String.format("%s -> %s -> {", category.getCategoryName(), category.getSearchResultList().size()));
                     category.getSearchResultList().stream().limit(MAX_MSG_BY_CATEGORY).forEach(text -> log.info("\t" + text));
                     log.info("}");
-        });
+                });
     }
 
     /**
