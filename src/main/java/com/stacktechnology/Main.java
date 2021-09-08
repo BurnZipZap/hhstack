@@ -21,12 +21,12 @@ public class Main {
     /**
      * Количество страниц с результатами поиска, которые необходимо просканировать
      */
-    private static final int COUNT_PAGE_BY_SEARCH = 3;
+    private static final int COUNT_PAGE_BY_SEARCH = 40;
 
     /**
      * Минимальное количество сообщений, которое должно быть у категории, чтобы она была выведена на экран
      */
-    private static final int MIN_COUNT_MSG_BY_CATEGORY_FOR_PRINT = 5;
+    private static final int MIN_COUNT_MSG_BY_CATEGORY_FOR_PRINT = 10;
 
     public static void main(String[] args) {
         Configuration.headless = true;
@@ -45,9 +45,10 @@ public class Main {
         int count = 0;
         for (var vacancy : vacancies) {
             Selenide.open(vacancy.getLink());
-            VacancyPage.getVacancyInfo().shouldBe(Condition.visible);
-            vacancy.setVacancyText(VacancyPage.getVacancyInfo().text());
-            vacancy.setVacancyStack(getOnlyStackText(vacancy.getVacancyText()));
+            if(VacancyPage.getVacancyInfo().isDisplayed()) {
+                vacancy.setVacancyText(VacancyPage.getVacancyInfo().text());
+                vacancy.setVacancyStack(getOnlyStackText(vacancy.getVacancyText()));
+            }
             count++;
             if (count % 10 == 0) {
                 log.info("Просканировано " + count + " вакансий. Осталось: " + (vacancies.size() - count));
