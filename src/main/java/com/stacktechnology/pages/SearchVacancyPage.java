@@ -19,7 +19,7 @@ public class SearchVacancyPage {
      * Перейти на страницу номер number
      */
     public static void goToPage(int number) {
-        $(By.xpath("//span[@class='bloko-button-group']//span[text()='" + number + "']")).click();
+        $(By.xpath("//a[@class='bloko-button']//span[text()='" + number + "']")).click();
     }
 
     /**

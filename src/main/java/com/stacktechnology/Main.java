@@ -21,16 +21,17 @@ public class Main {
     /**
      * Количество страниц с результатами поиска, которые необходимо просканировать
      */
-    private static final int COUNT_PAGE_BY_SEARCH = 40;
+    private static final int COUNT_PAGE_BY_SEARCH = 30;
 
     /**
      * Минимальное количество сообщений, которое должно быть у категории, чтобы она была выведена на экран
      */
-    private static final int MIN_COUNT_MSG_BY_CATEGORY_FOR_PRINT = 10;
+    private static final int MIN_COUNT_MSG_BY_CATEGORY_FOR_PRINT = 5;
 
     public static void main(String[] args) {
         Configuration.headless = true;
-        Selenide.open("https://rostov.hh.ru/search/vacancy?clusters=true&ored_clusters=true&enable_snippets=true&salary=&st=searchVacancy&text=java+qa");
+        Configuration.pageLoadTimeout = 1000 * 150;
+        Selenide.open("https://rostov.hh.ru/search/vacancy?search_field=name&search_field=company_name&search_field=description&text=Java+QA");
 
         log.info("Шаг 1. Сканирование страницы с перечнем вакансий (с 1 стр. по " + COUNT_PAGE_BY_SEARCH + ") и сбор ссылок на данные вакансии.");
         Set<Vacancy> vacancies = new HashSet<>();
@@ -65,7 +66,8 @@ public class Main {
         Collections.sort(categories);
 
         PrintUtils.printCategoryWithMsg(MIN_COUNT_MSG_BY_CATEGORY_FOR_PRINT, categories);
-        //PrintUtils.printCategoryWithoutMsg(MIN_COUNT_MSG_BY_CATEGORY_FOR_PRINT, categories);
+       // log.info("\n\n\n");
+       // PrintUtils.printCategoryWithoutMsg(MIN_COUNT_MSG_BY_CATEGORY_FOR_PRINT, categories);
     }
 
     /**
