@@ -30,7 +30,7 @@ public class Main {
 
     public static void main(String[] args) {
         Configuration.headless = true;
-        Configuration.pageLoadTimeout = 1000 * 150;
+        Configuration.pageLoadTimeout = 1000 * 60;
         Selenide.open("https://rostov.hh.ru/search/vacancy?search_field=name&search_field=company_name&search_field=description&text=Java+QA");
 
         log.info("Шаг 1. Сканирование страницы с перечнем вакансий (с 1 стр. по " + COUNT_PAGE_BY_SEARCH + ") и сбор ссылок на данные вакансии.");
