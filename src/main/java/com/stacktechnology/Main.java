@@ -39,6 +39,11 @@ public class Main {
             SearchVacancyPage.getVacanciesCard().forEach(card ->
                     vacancies.add(new Vacancy(card.getTitle().text(), card.getCompany().text(), card.getLink().getAttribute("href"))));
             SearchVacancyPage.goToPage(pageNumber);
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
         log.info("Сканирование завершилось успешно. Собрано " + vacancies.size() + " вакансий!");
 

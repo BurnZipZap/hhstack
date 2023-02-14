@@ -78,7 +78,7 @@ public class SearchVacancyPage {
          * Ссылка на вакансию
          */
         public SelenideElement getLink() {
-            return cardBlock.$(By.xpath(".//a[@data-qa='vacancy-serp__vacancy-title']"));
+            return cardBlock.$(By.xpath(".//a[@data-qa='serp-item__title']"));
         }
     }
 }
